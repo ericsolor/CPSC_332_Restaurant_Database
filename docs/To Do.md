@@ -4,9 +4,11 @@ To Do:
 
 &#x09;	a. 001\_init.sql
 
-&#x09;		i. Read through code and ensure it exported correctly
+&#x09;		~~i. Read through code and ensure it exported correctly~~
 
-&#x09;		ii. Comment through code
+&#x09;		~~ii. Comment through code~~
+
+&#x09;		iii. Add constraints to require certain fields | Conditionals for certain fields
 
 &#x09;	b. 002\_seed\_data.sql
 
@@ -18,11 +20,9 @@ To Do:
 
 &#x09;2. Cloud Database:
 
-&#x09;	a. Decide on a database (professor recommends: [https://supabase.com/](https://supabase.com/))
+&#x09;	~~a. Decide on a database (professor recommends:~~ [~~https://supabase.com/~~](https://supabase.com/)~~)~~
 
-&#x09;	b. Configure cloud database and migrate files
-
-&#x09;		**i. Not started**
+&#x09;	b. Migrate files
 
 &#x09;	c. Run migrations and capture a video for demo
 
