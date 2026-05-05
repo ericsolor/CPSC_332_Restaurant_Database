@@ -20,11 +20,9 @@ To Do:
 
 &#x09;2. Cloud Database:
 
-&#x09;	a. Decide on a database (professor recommends: [https://supabase.com/](https://supabase.com/))
+&#x09;	~~a. Decide on a database (professor recommends:~~ [~~https://supabase.com/~~](https://supabase.com/)~~)~~
 
-&#x09;	b. Configure cloud database and migrate files
-
-&#x09;		**i. Not started**
+&#x09;	b. Migrate files
 
 &#x09;	c. Run migrations and capture a video for demo
 
