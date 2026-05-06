@@ -2,13 +2,13 @@ To Do:
 
 &#x09;1. Migrations Files
 
-&#x09;	a. 001\_init.sql
+&#x09;	~~a. 001\_init.sql~~
 
 &#x09;		~~i. Read through code and ensure it exported correctly~~
 
 &#x09;		~~ii. Comment through code~~
 
-&#x09;		iii. Add constraints to require certain fields | Conditionals for certain fields
+&#x09;		~~iii. Add constraints to require certain fields | Conditionals for certain fields~~
 
 &#x09;	~~b. 002\_seed\_data.sql~~
 
