@@ -34,7 +34,7 @@ INSERT INTO "Guest_Tables" ("capacity", "table_status") VALUES
 (8, 'occupied');
 
 -- Insert data into Reservations table
-INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "table_id")
+INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "table_id") VALUES
 ('2026-05-08 18:00:00', 2, 1, 1),
 ('2026-05-08 19:30:00', 4, 2, 2),
 ('2026-05-09 17:00:00', 6, 3, 3),
