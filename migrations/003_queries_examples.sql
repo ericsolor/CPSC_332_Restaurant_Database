@@ -46,7 +46,6 @@ BEFORE INSERT OR UPDATE ON "Reservations"
 FOR EACH ROW
 EXECUTE FUNCTION check_reservation_capacity();
 
-
 -- VIEW: Show order details with customer, status, payment, and table information
 CREATE OR REPLACE VIEW "Order_Details_View" AS
 SELECT
