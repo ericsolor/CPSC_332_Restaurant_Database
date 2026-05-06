@@ -10,13 +10,13 @@ To Do:
 
 &#x09;		iii. Add constraints to require certain fields | Conditionals for certain fields
 
-&#x09;	b. 002\_seed\_data.sql
-
-&#x09;		**i. Not started**
+&#x09;	~~b. 002\_seed\_data.sql~~
 
 &#x09;	c. 003\_queries\_examples.sql
 
-&#x09;		**i. Not started**
+&#x09;		i. UPDATE 6 queries
+
+&#x09;		ii. DELETE 6 queries
 
 &#x09;2. Cloud Database:
 
