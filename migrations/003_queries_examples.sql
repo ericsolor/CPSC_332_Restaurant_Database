@@ -62,3 +62,62 @@ JOIN "Customers" c ON o."customer_id" = c."customer_id"
 JOIN "Order_Status" os ON o."status_id" = os."status_id"
 LEFT JOIN "Guest_Tables" gt ON o."table_id" = gt."table_id"
 LEFT JOIN "Payments" p ON o."order_id" = p."order_id";
+
+-- READ 1: Show all customer orders with their order status
+SELECT
+    c."name",
+    o."order_id",
+    o."order_date",
+    os."status_name",
+    o."order_type"
+FROM "Customers" c
+JOIN "Orders" o ON c."customer_id" = o."customer_id"
+JOIN "Order_Status" os ON o."status_id" = os."status_id";
+
+-- READ 2: Show all menu items that are part of each order
+SELECT
+    o."order_id",
+    mi."name" AS menu_item,
+    oi."quantity",
+    mi."price"
+FROM "Orders" o
+JOIN "Order_Items" oi ON o."order_id" = oi."order_id"
+JOIN "Menu_Items" mi ON oi."item_id" = mi."item_id";
+
+-- READ 3: Show payment information with customer names
+SELECT
+    c."name",
+    p."payment_id",
+    p."amount",
+    p."payment_method",
+    p."payment_date"
+FROM "Payments" p
+JOIN "Orders" o ON p."order_id" = o."order_id"
+JOIN "Customers" c ON o."customer_id" = c."customer_id";
+
+-- READ 4: Show all reservations with customer and table information
+SELECT
+    r."reservation_id",
+    c."name",
+    r."reservation_time",
+    r."party_size",
+    gt."table_id",
+    gt."capacity"
+FROM "Reservations" r
+JOIN "Customers" c ON r."customer_id" = c."customer_id"
+JOIN "Guest_Tables" gt ON r."table_id" = gt."table_id";
+
+-- READ 5: Show total cost of each order using menu item price and quantity
+SELECT
+    o."order_id",
+    c."name",
+    SUM(mi."price" * oi."quantity") AS order_total
+FROM "Orders" o
+JOIN "Customers" c ON o."customer_id" = c."customer_id"
+JOIN "Order_Items" oi ON o."order_id" = oi."order_id"
+JOIN "Menu_Items" mi ON oi."item_id" = mi."item_id"
+GROUP BY o."order_id", c."name";
+
+-- READ 6: Show all records from the order details view
+SELECT * FROM "Order_Details_View";
+
