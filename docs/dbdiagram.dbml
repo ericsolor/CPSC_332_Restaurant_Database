@@ -1,4 +1,3 @@
-
 Table "Customers" {
   "customer_id" INT [pk, increment]
   "name" text [not null]
@@ -22,6 +21,7 @@ Table "Guest_Tables" {
 
   Checks {
     `"capacity" > 0` [name: 'positive_capacity_required']
+    `"table_status" IN ('available', 'occupied', 'reserved')` [name: 'verify_table_status']
   }
 }
 
@@ -36,15 +36,26 @@ Table "Orders" {
   Checks {
     `"customer_id" IS NOT NULL OR "table_id" IS NOT NULL` [name: 'customer_id_or_table_id_required']
   }
+
+  Indexes {
+    customer_id [name: "idx_orders_customer_id"]
+    status_id [name: "idx_orders_status_id"]
+    table_id [name: "idx_orders_table_id"]
+  }
 }
 
 Table "Menu_Items" {
   "item_id" INT [pk, increment]
   "name" text [unique, not null]
   "price" decimal(5,2) [not null]
+  "category_id" int
 
   Checks {
     `"price" > 0` [name: 'positive_price_required']
+  }
+
+  Indexes {
+    category_id [name: "idx_menu_items_category_id"]
   }
 }
 
@@ -66,9 +77,16 @@ Table "Reservations" {
   "party_size" int [not null]
   "customer_id" int [not null]
   "table_id" int [not null]
+  "reservation_status_id" int [not null]
 
   Checks {
     `"party_size" > 0` [name: 'positive_party_size_required']
+  }
+
+  Indexes {
+    customer_id [name: "idx_reservations_customer_id"]
+    table_id [name: "idx_reservations_table_id"]
+    reservation_status_id [name: "idx_reservations_status_id"]
   }
 }
 
@@ -83,6 +101,25 @@ Table "Order_Items" {
 
   Indexes {
     (order_id, item_id) [pk]
+    item_id [name: "idx_order_items_item_id"]
+  }
+}
+
+Table "Menu_Categories" {
+  "category_id" INT [pk, increment]
+  "category_name" text [unique, not null]
+
+  Checks {
+    `trim("category_name") <> ''` [name: 'category_name_not_empty']
+  }
+}
+
+Table "Reservation_Status" {
+  "reservation_status_id" INT [pk, increment]
+  "status_name" text [unique, not null]
+
+  Checks {
+    `trim("status_name") <> ''` [name: 'reservation_status_name_not_empty']
   }
 }
 
@@ -101,3 +138,7 @@ Ref:"Guest_Tables"."table_id" < "Reservations"."table_id"
 Ref:"Orders"."order_id" < "Order_Items"."order_id"
 
 Ref:"Menu_Items"."item_id" < "Order_Items"."item_id"
+
+Ref:"Menu_Categories"."category_id" < "Menu_Items"."category_id"
+
+Ref:"Reservation_Status"."reservation_status_id" < "Reservations"."reservation_status_id"
