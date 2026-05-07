@@ -23,23 +23,42 @@ INSERT INTO "Guest_Tables" ("capacity", "table_status") VALUES
 (8, 'occupied'),
 (10, 'available');
 
+-- Insert data into Menu_Categories table
+INSERT INTO "Menu_Categories" ("category_name") VALUES
+('main dish'),
+('appetizer'),
+('salad'),
+('drink'),
+('dessert');
+
 -- Insert data into Menu_Items table
-INSERT INTO "Menu_Items" ("name", "price") VALUES
-('Cheeseburger', 12.99),
-('Chicken Alfredo', 15.50),
-('Caesar Salad', 9.25),
-('Pepperoni Pizza', 18.75),
-('Fish Tacos', 13.40),
-('Garlic Bread', 5.99),
-('Mozzarella Cheese Sticks', 7.99);
+INSERT INTO "Menu_Items" ("name", "price", "category_id") VALUES
+('Cheeseburger', 12.99, 1),
+('Chicken Alfredo', 15.50, 1),
+('Caesar Salad', 9.25, 3),
+('Pepperoni Pizza', 18.75, 1),
+('Fish Tacos', 13.40, 1),
+('Garlic Bread', 5.99, 2),
+('Mozzarella Cheese Sticks', 7.99, 2),
+('Iced Tea', 3.50, 4),
+('Chocolate Ice Cream', 6.75, 5),
+('Chicken Wings', 10.99, 2);
+
+-- Insert data into Reservation_Status table
+INSERT INTO "Reservation_Status" ("status_name") VALUES
+('booked'),
+('seated'),
+('canceled'),
+('completed'),
+('no-show');
 
 -- Insert data into Reservations table
-INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "table_id") VALUES
-('2026-05-08 18:00:00', 2, 1, 1),
-('2026-05-08 19:30:00', 4, 2, 2),
-('2026-05-09 17:00:00', 6, 3, 3),
-('2026-05-09 20:00:00', 3, 4, 4),
-('2026-05-10 18:45:00', 5, 5, 5);
+INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "table_id", "reservation_status_id") VALUES
+('2026-05-08 18:00:00', 2, 1, 1, 1),
+('2026-05-08 19:30:00', 4, 2, 2, 2),
+('2026-05-09 17:00:00', 6, 3, 3, 1),
+('2026-05-09 20:00:00', 3, 4, 4, 4),
+('2026-05-10 18:45:00', 5, 5, 5, 3);
 
 -- Insert data into Orders table
 INSERT INTO "Orders" ("order_date", "customer_id", "status_id", "order_type", "table_id") VALUES

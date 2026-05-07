@@ -34,7 +34,7 @@ SELECT
     p."amount",
     p."payment_method"
 FROM "Orders" o
-JOIN "Customers" c ON o."customer_id" = c."customer_id"
+LEFT JOIN "Customers" c ON o."customer_id" = c."customer_id"
 JOIN "Order_Status" os ON o."status_id" = os."status_id"
 LEFT JOIN "Guest_Tables" gt ON o."table_id" = gt."table_id"
 LEFT JOIN "Payments" p ON o."order_id" = p."order_id";
@@ -46,19 +46,21 @@ SELECT
     o."order_date",
     os."status_name",
     o."order_type"
-FROM "Customers" c
-JOIN "Orders" o ON c."customer_id" = o."customer_id"
+FROM "Orders" o
+LEFT JOIN "Customers" c ON o."customer_id" = c."customer_id"
 JOIN "Order_Status" os ON o."status_id" = os."status_id";
 
--- READ 2: Show all menu items that are part of each order
+-- READ 2: Show all menu items that are part of each order with category names
 SELECT
     o."order_id",
     mi."name" AS menu_item,
+    mc."category_name",
     oi."quantity",
     mi."price"
 FROM "Orders" o
 JOIN "Order_Items" oi ON o."order_id" = oi."order_id"
-JOIN "Menu_Items" mi ON oi."item_id" = mi."item_id";
+JOIN "Menu_Items" mi ON oi."item_id" = mi."item_id"
+JOIN "Menu_Categories" mc ON mi."category_id" = mc."category_id";
 
 -- READ 3: Show payment information with customer names
 SELECT
@@ -69,19 +71,21 @@ SELECT
     p."payment_date"
 FROM "Payments" p
 JOIN "Orders" o ON p."order_id" = o."order_id"
-JOIN "Customers" c ON o."customer_id" = c."customer_id";
+LEFT JOIN "Customers" c ON o."customer_id" = c."customer_id";
 
--- READ 4: Show all reservations with customer and table information
+-- READ 4: Show all reservations with customer, table, and reservation status information
 SELECT
     r."reservation_id",
     c."name",
     r."reservation_time",
     r."party_size",
     gt."table_id",
-    gt."capacity"
+    gt."capacity",
+    rs."status_name" AS reservation_status
 FROM "Reservations" r
 JOIN "Customers" c ON r."customer_id" = c."customer_id"
-JOIN "Guest_Tables" gt ON r."table_id" = gt."table_id";
+JOIN "Guest_Tables" gt ON r."table_id" = gt."table_id"
+JOIN "Reservation_Status" rs ON r."reservation_status_id" = rs."reservation_status_id";
 
 -- READ 5: Show total cost of each order using menu item price and quantity
 SELECT
@@ -89,7 +93,7 @@ SELECT
     c."name",
     SUM(mi."price" * oi."quantity") AS order_total
 FROM "Orders" o
-JOIN "Customers" c ON o."customer_id" = c."customer_id"
+LEFT JOIN "Customers" c ON o."customer_id" = c."customer_id"
 JOIN "Order_Items" oi ON o."order_id" = oi."order_id"
 JOIN "Menu_Items" mi ON oi."item_id" = mi."item_id"
 GROUP BY o."order_id", c."name";
@@ -98,12 +102,12 @@ GROUP BY o."order_id", c."name";
 SELECT * FROM "Order_Details_View";
 
 
--- UPDATE 1: Change order's status from "pending" to "in progess"
+-- UPDATE 1: Change order's status from "pending" to "in-progress"
 UPDATE "Orders"
 SET "status_id" = (SELECT "status_id" FROM "Order_Status" WHERE "status_name" = 'in-progress')
 WHERE "order_id" = 1;
 
--- UPDATE 2: Update customer name 
+-- UPDATE 2: Update customer name
 UPDATE "Customers"
 SET "name" = 'Freddie Jones'
 WHERE "customer_id" = 1;
@@ -113,7 +117,7 @@ UPDATE "Menu_Items"
 SET "price" = 14.99
 WHERE "name" = 'Cheeseburger';
 
--- UPDATE 4: change party size for a reservation from 4 to 3
+-- UPDATE 4: Change party size for a reservation from 4 to 3
 UPDATE "Reservations"
 SET "party_size" = 3
 WHERE "reservation_id" = 2;
@@ -129,13 +133,13 @@ SET "payment_method" = 'cash'
 WHERE "payment_id" = 1;
 
 
--- DELETE 1: Remove a cancelled reservation
+-- DELETE 1: Remove a canceled reservation
 DELETE FROM "Reservations"
-WHERE "reservation_id" = 4;
+WHERE "reservation_id" = 5;
 
--- DELETE 2: Remove a menu item
+-- DELETE 2: Remove a menu item that is no longer sold
 DELETE FROM "Menu_Items"
-WHERE "item_id" NOT IN (SELECT DISTINCT "item_id" FROM "Order_Items");
+WHERE "item_id" = 10;
 
 -- DELETE 3: Cancel an entire order (delete from subtables because FK constraints)
 -- + Delete order items first
@@ -151,17 +155,17 @@ WHERE "payment_date" < (CURRENT_DATE - INTERVAL '1 year');
 
 -- DELETE 5: Remove online orders that customers already picked up (status = "completed")
 ---- Delete order items first due to FK constraints
-DELETE FROM "Order_Items" 
+DELETE FROM "Order_Items"
 WHERE "order_id" IN (
-    SELECT o."order_id" 
+    SELECT o."order_id"
     FROM "Orders" o
     JOIN "Order_Status" os ON o."status_id" = os."status_id"
     WHERE os."status_name" = 'completed' AND o."order_type" = 'online'
 );
 ---- Delete payments for those orders
-DELETE FROM "Payments" 
+DELETE FROM "Payments"
 WHERE "order_id" IN (
-    SELECT o."order_id" 
+    SELECT o."order_id"
     FROM "Orders" o
     JOIN "Order_Status" os ON o."status_id" = os."status_id"
     WHERE os."status_name" = 'completed' AND o."order_type" = 'online'
@@ -169,7 +173,7 @@ WHERE "order_id" IN (
 ---- Delete the completed online orders
 DELETE FROM "Orders"
 WHERE "order_id" IN (
-    SELECT o."order_id" 
+    SELECT o."order_id"
     FROM "Orders" o
     JOIN "Order_Status" os ON o."status_id" = os."status_id"
     WHERE os."status_name" = 'completed' AND o."order_type" = 'online'
@@ -179,4 +183,3 @@ WHERE "order_id" IN (
 DELETE FROM "Guest_Tables"
 WHERE "table_id" NOT IN (SELECT DISTINCT "table_id" FROM "Orders" WHERE "table_id" IS NOT NULL)
   AND "table_id" NOT IN (SELECT DISTINCT "table_id" FROM "Reservations");
-
