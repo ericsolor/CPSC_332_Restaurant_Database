@@ -88,3 +88,16 @@ ALTER TABLE "Payments" ADD CONSTRAINT "positive_amount_required"  CHECK ("amount
 ALTER TABLE "Reservations" ADD CONSTRAINT "positive_party_size_required" CHECK ("party_size" > 0); -- Ensure positive party size in Reservations table
 
 ALTER TABLE "Order_Items" ADD CONSTRAINT "positive_quantity_required" CHECK ("quantity" > 0); -- Ensure positive quantity of item ordered in Order_Items table
+
+-- Indexes:
+CREATE INDEX "idx_orders_customer_id" ON "Orders" ("customer_id"); -- Index on Orders.customer_id for faster JOINs with Customers
+
+CREATE INDEX "idx_orders_status_id" ON "Orders" ("status_id"); -- Index on Orders.status_id for faster JOINs with Order_Status
+
+CREATE INDEX "idx_orders_table_id" ON "Orders" ("table_id"); -- Index on Orders.table_id for faster JOINs with Guest_Tables
+
+CREATE INDEX "idx_reservations_customer_id" ON "Reservations" ("customer_id"); -- Index on Reservations.customer_id for faster JOINs with Customers
+
+CREATE INDEX "idx_reservations_table_id" ON "Reservations" ("table_id"); -- Index on Reservations.table_id for faster JOINs with Guest_Tables
+
+CREATE INDEX "idx_order_items_item_id" ON "Order_Items" ("item_id"); -- Index on Order_Items.item_id for faster JOINs with Menu_Items

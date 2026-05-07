@@ -9,21 +9,22 @@
     Your sample data should be believable and allow queries to show meaningful results.
 */
 
--- Insert data into Menu_Items table
-INSERT INTO "Menu_Items" ("name", "price") VALUES
-('Cheeseburger', 12.99),
-('Chicken Alfredo', 15.50),
-('Caesar Salad', 9.25),
-('Pepperoni Pizza', 18.75),
-('Fish Tacos', 13.40);
+
+-- Insert data into Order_Status table
+INSERT INTO "Order_Status" ("status_name") VALUES
+('pending'),
+('in-progress'),
+('almost-ready'),
+('completed'),
+('canceled');
 
 -- Insert data into Customers table
 INSERT INTO "Customers" ("name", "phone_number", "email") VALUES
-("Fred Jones", "909-476-8104", NULL),
-("Daphne Blake", "909-546-2352", "daphblake@gmail.com"),
-("Shaggy Rogers", NULL, "shaggster505@hotmail.com"),
-("Velma Dinkley", "909-326-7484", NULL),
-("Scoobert Doo", NULL, "scoobydoobydoo@hotmail.com");
+('Fred Jones', '909-476-8104', NULL),
+('Daphne Blake', '909-546-2352', 'daphblake@gmail.com'),
+('Shaggy Rogers', NULL, 'shaggster505@hotmail.com'),
+('Velma Dinkley', '909-326-7484', NULL),
+('Scoobert Doo', NULL, 'scoobydoobydoo@hotmail.com');
 
 -- Insert data into Guest_Tables table
 INSERT INTO "Guest_Tables" ("capacity", "table_status") VALUES
@@ -32,6 +33,14 @@ INSERT INTO "Guest_Tables" ("capacity", "table_status") VALUES
 (6, 'reserved'),
 (4, 'available'),
 (8, 'occupied');
+
+-- Insert data into Menu_Items table
+INSERT INTO "Menu_Items" ("name", "price") VALUES
+('Cheeseburger', 12.99),
+('Chicken Alfredo', 15.50),
+('Caesar Salad', 9.25),
+('Pepperoni Pizza', 18.75),
+('Fish Tacos', 13.40);
 
 -- Insert data into Reservations table
 INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "table_id") VALUES
@@ -56,14 +65,6 @@ INSERT INTO "Order_Items" ("order_id", "item_id", "quantity") VALUES
 (3, 3, 3),
 (4, 4, 1),
 (5, 5, 2);
-
--- Insert data into Order_Status table
-INSERT INTO "Order_Status" ("status_name") VALUES
-("pending"),
-("in-progress"),
-("almost-ready"),
-("completed"),
-("canceled");
 
 -- Insert data into Payments table
 INSERT INTO "Payments" ("amount", "payment_date", "payment_method", "order_id") VALUES
