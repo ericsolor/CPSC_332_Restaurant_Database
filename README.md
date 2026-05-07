@@ -1,4 +1,3 @@
-# CPSC_332_Restaurant_Database
 # Restaurant Database Management System
 Cloud PostgreSQL restaurant ordering and reservation database group project
 ---
