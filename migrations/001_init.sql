@@ -46,7 +46,7 @@ CREATE TABLE "Reservations" ( -- Table to hold reservations
   "party_size" int NOT NULL, -- How many people in the reservation
   "customer_id" int NOT NULL, -- Foreign key linking back to Customers.customer_id
   "table_id" int NOT NULL, -- Foreign key linking back to Guest_Tables.table_id
-  "reservation_status_id" int NOT NULL
+  "reservation_status_id" int NOT NULL -- Foreign key linking back to Reservations_Status.status_name
 );
 
 CREATE TABLE "Order_Items" ( -- Table to hold customer's order
