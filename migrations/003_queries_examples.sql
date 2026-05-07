@@ -121,3 +121,86 @@ GROUP BY o."order_id", c."name";
 -- READ 6: Show all records from the order details view
 SELECT * FROM "Order_Details_View";
 
+
+-- UPDATE 1: Change order's status from "pending" to "in progess"
+UPDATE "Orders"
+SET "status_id" = (SELECT "status_id" FROM "Order_Status" WHERE "status_name" = 'in-progress')
+WHERE "order_id" = 1;
+
+-- UPDATE 2: Update customer name 
+UPDATE "Customers"
+SET "name" = 'Freddie Jones'
+WHERE "customer_id" = 1;
+
+-- UPDATE 3: Increase the price of a specific menu item (Cheeseburger)
+UPDATE "Menu_Items"
+SET "price" = 14.99
+WHERE "name" = 'Cheeseburger';
+
+-- UPDATE 4: change party size for a reservation from 4 to 3
+UPDATE "Reservations"
+SET "party_size" = 3
+WHERE "reservation_id" = 2;
+
+-- UPDATE 5: Change a table's status from "available" to "occupied"
+UPDATE "Guest_Tables"
+SET "table_status" = 'occupied'
+WHERE "table_id" = 1;
+
+-- UPDATE 6: Update payment method
+UPDATE "Payments"
+SET "payment_method" = 'cash'
+WHERE "payment_id" = 1;
+
+
+-- DELETE 1: Remove a cancelled reservation
+DELETE FROM "Reservations"
+WHERE "reservation_id" = 4;
+
+-- DELETE 2: Remove a menu item
+DELETE FROM "Menu_Items"
+WHERE "item_id" NOT IN (SELECT DISTINCT "item_id" FROM "Order_Items");
+
+-- DELETE 3: Cancel an entire order (delete from subtables because FK constraints)
+-- + Delete order items first
+DELETE FROM "Order_Items" WHERE "order_id" = 3;
+-- + Delete payment for that order
+DELETE FROM "Payments" WHERE "order_id" = 3;
+-- + Delete the order itself
+DELETE FROM "Orders" WHERE "order_id" = 3;
+
+-- DELETE 4: Remove old payment records older than 1 year (clean up)
+DELETE FROM "Payments"
+WHERE "payment_date" < (CURRENT_DATE - INTERVAL '1 year');
+
+-- DELETE 5: Remove online orders that customers already picked up (status = "completed")
+---- Delete order items first due to FK constraints
+DELETE FROM "Order_Items" 
+WHERE "order_id" IN (
+    SELECT o."order_id" 
+    FROM "Orders" o
+    JOIN "Order_Status" os ON o."status_id" = os."status_id"
+    WHERE os."status_name" = 'completed' AND o."order_type" = 'online'
+);
+---- Delete payments for those orders
+DELETE FROM "Payments" 
+WHERE "order_id" IN (
+    SELECT o."order_id" 
+    FROM "Orders" o
+    JOIN "Order_Status" os ON o."status_id" = os."status_id"
+    WHERE os."status_name" = 'completed' AND o."order_type" = 'online'
+);
+---- Delete the completed online orders
+DELETE FROM "Orders"
+WHERE "order_id" IN (
+    SELECT o."order_id" 
+    FROM "Orders" o
+    JOIN "Order_Status" os ON o."status_id" = os."status_id"
+    WHERE os."status_name" = 'completed' AND o."order_type" = 'online'
+);
+
+-- DELETE 6: Remove tables that are no longer used (no orders, no reservations)
+DELETE FROM "Guest_Tables"
+WHERE "table_id" NOT IN (SELECT DISTINCT "table_id" FROM "Orders" WHERE "table_id" IS NOT NULL)
+  AND "table_id" NOT IN (SELECT DISTINCT "table_id" FROM "Reservations");
+
