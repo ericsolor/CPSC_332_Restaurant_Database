@@ -88,7 +88,7 @@ ALTER TABLE "Customers" ADD CONSTRAINT "customer_info_required" CHECK ("email" I
 -- Guest_Tables
 ALTER TABLE "Guest_Tables" ADD CONSTRAINT "positive_capacity_required" CHECK ("capacity" > 0); -- Ensure guest tables have a positive capacity in Guest_Tables
 
-ALTER TABLE "Guest_Tables" ADD CONSTRAINT "verify_table_status" CHECK ("table_status" IN ("available", "occupied", "reserved"))
+ALTER TABLE "Guest_Tables" ADD CONSTRAINT "verify_table_status" CHECK ("table_status" IN ("available", "occupied", "reserved")) -- Ensures table_status is only one of the valid states
 
 -- Orders
 ALTER TABLE "Orders" ADD CONSTRAINT "customer_id_or_table_id_required" CHECK ("customer_id" IS NOT NULL OR "table_id" IS NOT NULL); -- Require either customer_id or table_id
