@@ -32,7 +32,8 @@ INSERT INTO "Guest_Tables" ("capacity", "table_status") VALUES
 (4, 'occupied'),
 (6, 'reserved'),
 (4, 'available'),
-(8, 'occupied');
+(8, 'occupied'),
+(10, 'available');
 
 -- Insert data into Menu_Items table
 INSERT INTO "Menu_Items" ("name", "price") VALUES
@@ -40,7 +41,9 @@ INSERT INTO "Menu_Items" ("name", "price") VALUES
 ('Chicken Alfredo', 15.50),
 ('Caesar Salad', 9.25),
 ('Pepperoni Pizza', 18.75),
-('Fish Tacos', 13.40);
+('Fish Tacos', 13.40),
+('Garlic Bread', 5.99),
+('Mozzarella Cheese Sticks', 7.99);
 
 -- Insert data into Reservations table
 INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "table_id") VALUES
@@ -56,7 +59,9 @@ INSERT INTO "Orders" ("order_date", "customer_id", "status_id", "order_type", "t
 ('2026-05-07', 2, 2, 'in-house', 2),
 ('2026-05-08', 3, 3, 'online', 3),
 ('2026-05-08', 4, 4, 'in-house', 4),
-('2026-05-09', 5, 5, 'online', 5);
+('2026-05-09', 5, 5, 'online', NULL),
+('2025-05-01', 1, 4, 'online', NULL),
+('2024-05-02', 2, 4, 'online', NULL);
 
 -- Insert data into Order_Items table
 INSERT INTO "Order_Items" ("order_id", "item_id", "quantity") VALUES
@@ -72,4 +77,6 @@ INSERT INTO "Payments" ("amount", "payment_date", "payment_method", "order_id") 
 (15.50, '2026-05-07', 'cash', 2),
 (27.75, '2026-05-08', 'debit', 3),
 (18.75, '2026-05-08', 'credit', 4),
-(26.80, '2026-05-09', 'cash', 5);
+(26.80, '2026-05-09', 'cash', 5),
+(22.24, '2025-05-01', 'credit', 6),
+(31.49, '2024-05-02', 'cash', 7);

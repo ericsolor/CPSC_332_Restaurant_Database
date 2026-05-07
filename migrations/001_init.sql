@@ -90,6 +90,7 @@ ALTER TABLE "Reservations" ADD CONSTRAINT "positive_party_size_required" CHECK (
 ALTER TABLE "Order_Items" ADD CONSTRAINT "positive_quantity_required" CHECK ("quantity" > 0); -- Ensure positive quantity of item ordered in Order_Items table
 
 -- Indexes:
+
 CREATE INDEX "idx_orders_customer_id" ON "Orders" ("customer_id"); -- Index on Orders.customer_id for faster JOINs with Customers
 
 CREATE INDEX "idx_orders_status_id" ON "Orders" ("status_id"); -- Index on Orders.status_id for faster JOINs with Order_Status
