@@ -126,10 +126,11 @@ Run the SQL files in this order:
 001_init.sql
 002_seed_data.sql
 003_queries_examples.sql
+```
 
 ---
 ## Contributors
 
-Eric Solorzano
-Hai Sieu Cao
-Eric Solorzano
+- Eric Solorzano
+- Hai Sieu Cao
+- Eric Solorzano
