@@ -44,9 +44,9 @@ INSERT INTO "Reservations" ("reservation_time", "party_size", "customer_id", "ta
 -- Insert data into Orders table
 INSERT INTO "Orders" ("order_date", "customer_id", "status_id", "order_type", "table_id") VALUES
 ('2026-05-07', 1, 1, 'online', NULL),
-('2026-05-07', 2, 2, 'in-house', 2),
+('2026-05-07', NULL, 2, 'in-house', 2),
 ('2026-05-08', 3, 3, 'online', NULL),
-('2026-05-08', 4, 4, 'in-house', 4),
+('2026-05-08', NULL, 4, 'in-house', 4),
 ('2026-05-09', 5, 5, 'online', NULL),
 ('2025-05-01', 1, 4, 'online', NULL),
 ('2024-05-02', 2, 4, 'online', NULL);
